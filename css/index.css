@@ -1,0 +1,79 @@
+
+:root {
+    --lighter-text-color: #5c5c5c;
+}
+
+/* Page logo ----------------------------------------------------------- */
+
+#world-icon, #thermometer-icon, #co2-icon {
+    position: relative;
+    /*filter: blur(5px);*/
+}
+
+#world-icon {
+    width: 100px;
+    top: 40px;
+}
+
+#thermometer-icon {
+    width: 50px;
+    top: 70px;
+    left: -20px;
+}
+
+#co2-icon {
+    font-weight: bold;
+    font-size: 20px;
+    color: var(--lighter-text-color);
+    top: -65px;
+    left: 95px;
+}
+
+/* Bootstrap overrides ------------------------------------------------- */
+
+label {
+    font-weight: normal;
+}
+
+.form-group {
+    /* add some slack between form lines */
+    margin-bottom: 15px;
+    height: 20px;
+    margin-top: 15px;
+}
+
+input.form-control {
+    /* to allow for unit after input box */
+    display: inline-block;
+    margin-right: 5px;
+    width: 60%;
+    padding: 4px 10px;
+    height: auto;
+}
+
+.table {
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.table.table-single-row {  /* single-row table for ensuring proper vertical align when needed */
+    font-size: 16px;
+}
+
+.table.table-single-row td {
+    border-top: none;
+    vertical-align: bottom;
+}
+
+.panel .panel-heading {
+    text-transform: none;
+    color: var(--lighter-text-color);
+}
+
+/* Other stuff --------------------------------------------------------- */
+
+.note {
+    font-style: italic;
+    /*color: #7e7e7e;*/
+    color: #c43b3d;
+}

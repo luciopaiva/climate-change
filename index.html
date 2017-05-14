@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Climate Change Calculator</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <script src="js/math-util.js"></script>
+    <script src="js/data-binder.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <!-- Page header -->
+    <section class="row">
+        <div class="col-md-10">
+            <div class="page-header">
+                <h1>Climate Change Calculator</h1>
+                <p>Is global warming really caused by human activity? Use the calculator below and take your own
+                    conclusions!</p>
+                <p>Calculator based on the excellent article by Thomas Murphy:
+                    <a href="https://dothemath.ucsd.edu/2011/08/recipe-for-climate-change/">Recipe for Climate Change</a>.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <img id="world-icon" src="img/planet-earth.svg" alt="">
+            <img id="thermometer-icon" src="img/thermometer.svg" alt="">
+            <span id="co2-icon">CO<sub>2</sub></span>
+        </div>
+    </section>
+
+    <!-- CO2 Intensity per Fossil Fuel Source -->
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h2>CO<sub>2</sub> Intensity per Fossil Fuel Source</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>The three main sources of human CO<sub>2</sub> atmospheric emissions and their associated
+                        intensities, i.e., how much CO<sub>2</sub> each emits to the atmosphere per unit of energy
+                        produced:</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table">
+                        <tr>
+                            <th>Source</th>
+                            <th>Reaction</th>
+                            <th>CO<sub>2</sub> intensity</th>
+                        </tr>
+                        <tr>
+                            <td>Coal</td>
+                            <td>C (1 g) + O<sub>2</sub> (2.7 g) →
+                                CO<sub>2</sub> (<b><span id="coal-co2-weight"></span> g</b>) +
+                                <b><span id="coal-energy"></span> kcal</b></td>
+                            <td><span id="coal-co2-intensity"></span> g/kcal</td>
+                        </tr>
+                        <tr>
+                            <td>Natural gas</td>
+                            <td>CH<sub>4</sub> (1 g) + 2O<sub>2</sub> (4 g) →
+                                2H<sub>2</sub>O (2.25 g) + CO<sub>2</sub>
+                                (<b><span id="natural-gas-co2-weight"></span> g</b>) +
+                                <b><span id="natural-gas-energy"></span> kcal</b></td>
+                            <td><span id="natural-gas-co2-intensity"></span> g/kcal</td>
+                        </tr>
+                        <tr>
+                            <td>Gasoline</td>
+                            <td>C<sub>8</sub>H<sub>18</sub> (1 g) + 12.5O<sub>2</sub> (3.51 g) →
+                                9H<sub>2</sub>O (1.42 g) +
+                                8CO<sub>2</sub> (<b><span id="oil-co2-weight"></span> g</b>) +
+                                <b><span id="oil-energy"></span> kcal</b></td>
+                            <td><span id="oil-co2-intensity"></span> g/kcal</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>This is important so we can later correlate each energy source with world's current power
+                        production (see next section).</p>
+                    <ul>
+                        <li class="note">Find other sources that confirm these data</li>
+                        <li class="note">What's the difference between gasoline and oil as far as energy production
+                            goes?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Total Amount of Annual CO2 Emissions -->
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Total Amount of Annual CO<sub>2</sub> Emissions</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Here we find out how much CO<sub>2</sub> is released to the atmosphere due to human activities.</p>
+                    <!--<p>Here we take the amount of carbon dioxide emitted per energy unit produced and multiply it by the-->
+                        <!--total annual amount of energy produced per fossil fuel source.</p>-->
+                    <p>We start by stating how much energy is produced yearly by our civilization:</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <table class="table table-single-row">
+                        <tr>
+                            <td><label for="annual-energy-production">Global annual energy consumption:</label></td>
+                            <td><input id="annual-energy-production" class="form-control" type="number" value="157.5" step="any" /> PWh</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    Then we specify how much each fossil fuel source contributes to the annual production:
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <table class="table">
+                        <tr>
+                            <th>Source</th>
+                            <th>Share</th>
+                            <th>Power (PWh)</th>
+                            <th>CO<sub>2</sub> amount (Pg)</th>
+                        </tr>
+                        <tr>
+                            <td><label for="coal-annual-energy-percentage">Coal</label></td>
+                            <td><input id="coal-annual-energy-percentage" class="form-control" type="number" value="" step="any" /> %</td>
+                            <td><span id="coal-annual-energy-watt-hours">X</span> PWh</td>
+                            <td><span id="coal-annual-co2-emission">Y</span> Pg</td>
+                        </tr>
+                        <tr>
+                            <td><label for="natural-gas-annual-energy-percentage">Natural gas</label></td>
+                            <td><input id="natural-gas-annual-energy-percentage" class="form-control" type="number" value="" step="any" /> %</td>
+                            <td><span id="natural-gas-annual-energy-watt-hours">X</span> PWh</td>
+                            <td><span id="natural-gas-annual-co2-emission">Y</span> Pg</td>
+                        </tr>
+                        <tr>
+                            <td><label for="oil-annual-energy-percentage">Oil</label></td>
+                            <td><input id="oil-annual-energy-percentage" class="form-control" type="number" value="" step="any" /> %</td>
+                            <td><span id="oil-annual-energy-watt-hours">X</span> PWh</td>
+                            <td><span id="oil-annual-co2-emission">Y</span> Pg</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    And thus:
+                    <table class="table table-single-row">
+                        <tr>
+                            <td>Total amount of CO<sub>2</sub> emitted: <b><span id="total-amount-co2"></span>×10<sup>12</sup> kg</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul>
+                        <li class="note">Add animated percentage bars next to each source</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="row">
+            <div class="col-md-12 text-center small">
+                <em>App made by <a href="//www.github.com/luciopaiva">Lucio Paiva</a>. Feel free to use it as you please.</em><br>
+                <em>Earth icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com/free-icon/planet-earth_44748" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></em><br>
+                <em>Thermometer icon made by <a href="http://www.flaticon.com/authors/yannick" title="Yannick">Yannick</a> from <a href="http://www.flaticon.com/free-icon/thermometer-outlined-symbol-of-stroke_55483" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></em>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>
