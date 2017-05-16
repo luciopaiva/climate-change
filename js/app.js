@@ -2,8 +2,23 @@
 class ClimateChangeApp {
 
     constructor () {
+        /** @type ClimateChangeModel */
         this.model = new ClimateChangeModel();
 
+        this.model = DataBinder.proxify(this.model, (property, oldValue, newValue) => {
+            console.info(`${property} is now "${newValue}" (was "${oldValue}")`);
+
+            // upon write in any property, refresh the whole view; inefficient, but quick to implement
+            // FixMe newValue is not being written properly after update() was inserted here
+            this.update();
+        });
+
+        DataBinder.bind('annual-energy-production', (value) => this.model.globalAnnualEnergyConsumptionInPWh = value);
+
+        this.update();
+    }
+
+    update() {
         DataBinder.setOnce('coal-co2-weight', this.model.fuelSources.coal.co2WeightInGrams);
         DataBinder.setOnce('coal-energy', this.model.fuelSources.coal.energyInKcal);
         DataBinder.setOnce('coal-co2-intensity', MathUtil.floatToStr(this.model.fuelSources.coal.co2Intensity));
@@ -16,6 +31,9 @@ class ClimateChangeApp {
         DataBinder.setOnce('oil-co2-weight', this.model.fuelSources.oil.co2WeightInGrams);
         DataBinder.setOnce('oil-energy', this.model.fuelSources.oil.energyInKcal);
         DataBinder.setOnce('oil-co2-intensity', MathUtil.floatToStr(this.model.fuelSources.oil.co2Intensity));
+
+        DataBinder.setOnce('annual-energy-production',
+            MathUtil.floatToStr(this.model.globalAnnualEnergyConsumptionInPWh));
 
         DataBinder.setOnce('coal-annual-energy-percentage',
             MathUtil.percToStr(this.model.fuelSources.coal.percentageOfGlobalProduction));
